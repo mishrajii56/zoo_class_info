@@ -1,0 +1,197 @@
+// Here's the complete program for zoo class model. use a c++ compiler like online GDB compiler to test this.
+
+#include <iostream>
+#include <string>
+#include <time.h>
+using namespace std;
+
+class animal {
+
+protected:
+  float *cost;
+  int *add_cost;
+  string name;
+  int aninum;
+
+public:
+  void greet() {
+    cout << "Welcome to zoo " << endl << endl;
+    cout << "You can feed the animals or Add some Animals to zoo or See the "
+            "total feeding cost" << endl;
+  }
+};
+
+class feedexisting : virtual public animal {
+
+protected:
+  int b, c; // b = number of animals
+            // c = number of costs
+  float total = 0;
+
+public:
+  void animal_details() {
+    cout << "Here's the list of existing animals you can feed" << endl;
+    cout << "1. Lion" << endl;
+    cout << "2. Tiger" << endl;
+    cout << "3. Girrafe" << endl;
+    cout << "3. Monkey " << endl;
+    cout << "4. Zebra" << endl;
+    cout << endl;
+
+    cout << "Cost of food per day: " << endl;
+    cout << "1. Lion: 800" << endl;
+    cout << "2. Tiger: 1000" << endl;
+    cout << "3. Girrafe: 300" << endl;
+    cout << "4. Monkey: 200" << endl;
+    cout << "5. Zebra: 400" << endl << endl;
+
+    cout << "We accept any amount of money to feeding them" << endl << endl;
+
+    cout << "Enter the number of Animals you want to feed : ";
+    cin >> b;
+    cout << endl;
+  }
+
+  void feed_inp() {
+    cost = new float[b];
+
+    cout << "Enter the cost of food you want to feed : " << endl;
+
+    for (int i = 0; i < b; i++) {
+      cout << "cost " << i + 1 << ": ";
+      cin >> cost[i];
+    }
+    cout << endl;
+  }
+
+  void add_feed_inp() {
+    for (int i = 0; i < b; i++) {
+      total += cost[i];
+    }
+    cout << "Total cost of food : " << total << endl << endl << endl;
+    cout << "Feeding animals....." << endl;
+  }
+
+  void add_animal_feed(int c2) {
+    c = c2;
+    cost = new float[c];
+
+    cout << "Enter the cost of food you want to feed : " << endl;
+
+    for (int i = 0; i < c; i++) {
+      cout << "cost " << i + 1 << ": ";
+      cin >> cost[i];
+    }
+    cout << endl;
+  }
+
+  void total_add_cost() {
+    for (int i = 0; i < c; i++) {
+      total += cost[i];
+    }
+    cout << "Total cost of food : " << total << endl << endl;
+    delete[] add_cost;
+  }
+};
+
+class newAnimal : virtual public animal {
+protected:
+  int a;
+  string *name;
+
+public:
+  void get_anim(int c1) {
+    a = c1;
+    name = new string[a];
+
+    for (int i = 0; i < a; i++) {
+      cout << "Enter the name of animal " << i + 1 << " : ";
+      cin >> name[i];
+    }
+    cout << endl;
+  }
+
+  void show_animal() {
+    for (int i = 0; i < a; i++) {
+      cout << "Adding Animal " << i + 1 << " in the zoo : " << name[i] << endl;
+    }
+    cout << a << " Animals added in the zoo" << endl << endl;
+  }
+};
+
+class feeding_animals : public feedexisting, public newAnimal {
+public:
+  void feeding_existing() {
+    srand(time(NULL));
+
+    for (int i = 0; i < feedexisting::b; i++) {
+      string arrayNum[5] = {"lion", "tiger", "girrafe", "monkey", "zebra"};
+      int RanIndex = rand() % 5;
+      cout << arrayNum[RanIndex] << " Feeded" << endl;
+    }
+  }
+
+  void feed_ani() {
+    for (int i = 0; i < newAnimal::a; i++) {
+      cout << "Feeding " << name[i] << endl;
+    }
+
+    delete[] name;
+  }
+
+  void feeding_cost() {
+    cout << "Total Feeding cost per Day: 3100 rupees" << endl;
+    cout << "Total Feeding cost per Week: 21,700 rupees" << endl;
+    cout << "Total Feeding cost per Month: 93,000 rupees" << endl;
+    cout << "Total Feeding cost per Year: 1,131,500 rupees" << endl;
+  }
+    
+};
+
+int main() {
+  int num, num2;
+
+  feeding_animals f;
+  f.greet();
+  do{
+  cout << "\n----- ZOO OPERATIONS ----- \n\n1. Feeding existing Animals \n2. "
+          "Add new Animals and feed them\n3. Too see total cost of feeding "
+          "Animals\n4. EXIT\nEnter : ";
+  cin >> num;
+  cout << endl;
+
+  
+    if (num == 1) {
+      f.animal_details();
+      f.feed_inp();
+      f.add_feed_inp();
+      f.feeding_existing();
+    }
+
+    else if (num == 2) {
+      cout << "Enter the number of Animals you want to add: ";
+      cin >> num2;
+      cout << endl;
+
+      f.get_anim(num2);
+      f.add_animal_feed(num2);
+      f.show_animal();
+      f.total_add_cost();
+      f.feed_ani();
+    } 
+      else if (num == 3) {
+        f.feeding_cost();
+      }
+    else if (num == 4) {
+      cout << "Exiting Zoo Systemm" << endl;
+      break;
+    }
+    else{
+      cout << "Invalid Input"<<endl; ;
+    }
+    
+
+}while (num != 100);
+  cout << "Thank you for visiting Zoo Management System"<< endl ;
+  return 0;
+}
